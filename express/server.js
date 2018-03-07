@@ -1,11 +1,25 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+var path = require('path');
+var expressValidator = require('express-validator');
 
-var app = express();
+var server = express();
 
-app.get('/', function(req, res) {
-  res.send('Hello World');
-})
+//View Engine
+server.set('view engine', 'ejs');
+server.set('views', path.join(__dirname, 'views'));
 
-app.listen(3000, function(){
+//Express Validator Middleware
+server.use(expressValidator());
+
+server.get('/', function(req, res) {
+  res.render('index');
+});
+
+// server.post('/url', function(req, res){
+//   console.log(req.body.email);
+// })
+
+server.listen(3000, function(){
   console.log('Server Started on Port 3000....')
 })
