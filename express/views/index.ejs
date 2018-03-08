@@ -65,16 +65,7 @@
       <li>Create a pull request </li>
       <li>The original owner will see the pull request and if they like it, they will merge the request.</li>
     </ol>
-<<<<<<< HEAD
 
-    <form class="form-inline" method="POST" action="/url">
-                <label for="exampleInputName2">Name</label>
-                <input type="text" class="form-control" id="exampleInputName2" placeholder=" ">
-              </div>
-              <div class="form-group">
-                <label for="exampleInputEmail2">Email</label>
-                <input type="email" class="form-control" id="exampleInputEmail2" placeholder=" ">
-=======
     <% if(errors){ %>
       <ul>
       <% errors.forEach(function(error) { %>
@@ -83,24 +74,15 @@
       </ul>
     <% } %>
     <form class="form-inline" method="post" action="/url">
-              <div class="form-group">
+              <div><div class="form-group">
                 <label for="exampleInputName2">Name</label>
-                <input type="text" name="name" placeholder="Jane Doe">
+                <input type="text" name="name" placeholder=" ">
               </div>
               <div class="form-group">
                 <label for="exampleInputEmail2">Email</label>
-                <input type="text" name="email" placeholder="jane.doe@example.com">
->>>>>>> a5d5ff44033bec43c3ec8f091b5f0a4dc38edec7
+                <input type="text" name="email" placeholder=" ">
               </div>
-              <div class="form-group">
-                <select id="size">
-                  <option value="10">Select Resource</br></option>
-                  <option value="Email">Email</br></option>
-                  <option value="PDF">PDF</br></option>
-                  <option value="Link">Link</p></option>
-                </select>
-             </div>
               <button type="submit" class="btn btn-default">Send</button>
-    </form>
+    </div></form>
 
 <% include partials/footer %>

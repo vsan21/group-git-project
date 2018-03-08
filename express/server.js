@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
 var path = require('path');
 var expressValidator = require('express-validator');
 
@@ -24,21 +25,10 @@ server.use(bodyParser.urlencoded({extended: false}));
 //Express Validator Middleware
 server.use(expressValidator());
 
-server.get('/url', function(req, res) {
+server.get('/', function(req, res) {
   res.render('index');
 });
 
-<<<<<<< HEAD
-server.post('/url', urlencodedParser, function(req, res) {
-  console.log("req.formdata");
-  res.render('index');
-});
-
-
-// server.post('/url', function(req, res){
-//   console.log(req.body.email);
-// })
-=======
 server.post('/url', function(req, res){
 
   req.checkBody('name', 'Name is Required').notEmpty();
@@ -56,14 +46,51 @@ server.post('/url', function(req, res){
       email: req.body.email
     }
     console.log(newUser);
-  }
 
-  // var email = req.body.email;
-  //
-  // res.send();
+    const output = `
+               <p>Here's the link to the resources doc you requested! <p>
+               <a href="https://docs.google.com/document/d/1XDDsqAiT0WRTMoESiidBEgR_niBPyZJWWudoSTpJRtc/edit?usp=sharing">Resource Link</a>
+               `;
+
+// create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false, // true for 465, false for other ports
+        auth: {
+            user: 'fake23480@gmail.com', // generated ethereal user
+            pass: 'fakegmail' // generated ethereal password
+        },
+
+        tls: {
+          rejectUnauthorized: false
+        }
+    });
+
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: '"Fake Person 👻" <fake23480@gmail.com>', // sender address
+        to: req.body.email, // list of receivers
+        subject: 'Hello Person', // Subject line
+        text: 'Hello world?', // plain text body
+        html: output // html body
+    };
+
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        }
+        console.log('Message sent: %s', info.messageId);
+        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
+
+        res.render('index', {msg:"Email has been sent"});
+
+    });
+  }
 });
->>>>>>> a5d5ff44033bec43c3ec8f091b5f0a4dc38edec7
+
 
 server.listen(3000, function(){
   console.log('Server Started on Port 3000....')
-})
+});
