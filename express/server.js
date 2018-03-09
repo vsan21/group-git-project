@@ -5,7 +5,6 @@ var path = require('path');
 var expressValidator = require('express-validator');
 // var mongodb = require('mongodb');
 var mongojs = require('mongojs');
-// var db = mongojs('express', ['newUsers']);
 
 var db = mongojs('git_project', ['newUsers']);
 
@@ -62,7 +61,6 @@ server.post('/url', function(req, res){
       res.redirect('/');
     });
   }
-
 
   const output = `
     <p>Here's the link to the resources doc you requested! <p>
