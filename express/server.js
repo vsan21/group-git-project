@@ -3,6 +3,11 @@ var bodyParser = require('body-parser');
 var nodemailer = require('nodemailer');
 var path = require('path');
 var expressValidator = require('express-validator');
+// var mongodb = require('mongodb');
+var mongojs = require('mongojs');
+// var db = mongojs('express', ['newUsers']);
+
+var db = mongojs('git_project', ['newUsers']);
 
 var server = express();
 
@@ -26,7 +31,12 @@ server.use(bodyParser.urlencoded({extended: false}));
 server.use(expressValidator());
 
 server.get('/', function(req, res) {
-  res.render('index');
+  db.users.find(function (err, docs) {
+     res.render('index', {
+       title: 'Customers',
+       users: docs
+     });
+  })
 });
 
 server.post('/url', function(req, res){
@@ -44,15 +54,20 @@ server.post('/url', function(req, res){
     var newUser = {
       name: req.body.name,
       email: req.body.email
-    }
-    console.log('Email Sent');
+    };
+    db.newUsers.insert(newUser, function(err, result) {
+      if(err) {
+        console.log(err);
+      }
+      res.redirect('/');
+    });
+  }
 
-    console.log(newUser);
 
-    const output = `
-               <p>Here's the link to the resources doc you requested! <p>
-               <a href="https://docs.google.com/document/d/1XDDsqAiT0WRTMoESiidBEgR_niBPyZJWWudoSTpJRtc/edit?usp=sharing">Resource Link</a>
-               `;
+  const output = `
+    <p>Here's the link to the resources doc you requested! <p>
+    <a href="https://docs.google.com/document/d/1XDDsqAiT0WRTMoESiidBEgR_niBPyZJWWudoSTpJRtc/edit?usp=sharing">Resource Link</a>
+    `;
 
 // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
@@ -86,11 +101,10 @@ server.post('/url', function(req, res){
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        res.render('index');
+        res.render('index', {msg: 'Email has been sent!'});
 
     });
-  }
-});
+  });
 
 server.listen(3000, function(){
   console.log('Server Started on Port 3000....')
