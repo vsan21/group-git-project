@@ -15,6 +15,7 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //View Engine
 server.set('view engine', 'ejs');
 server.set('views', path.join(__dirname, 'views'));
+server.use(express.static(path.join(__dirname,'public')));
 
 //Global Vars
 server.use(function(req, res, next) {
@@ -48,7 +49,7 @@ server.post('/url', function(req, res){
   if(errors) {
     res.render('index', {
       errors: errors
-    })
+  })
   } else {
     var newUser = {
       name: req.body.name,
@@ -86,7 +87,7 @@ server.post('/url', function(req, res){
     let mailOptions = {
         from: '"Fake Person 👻" <fake23480@gmail.com>', // sender address
         to: req.body.email, // list of receivers
-        subject: 'Hello Person', // Subject line
+        subject: 'Hello Human', // Subject line
         text: 'Hello world?', // plain text body
         html: output // html body
     };

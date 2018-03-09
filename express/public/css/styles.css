@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css?family=Chelsea+Market');
+
+body {
+ width: 90%;
+ left: 5%;
+ right: 5%;
+ font-family:'Chelsea Market', cursive;
+ background-color:blue;
+}
+
+h1 {
+ font-family: 'Chelsea Market', Georgia, serif;
+}
