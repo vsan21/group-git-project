@@ -39,12 +39,14 @@ server.post('/url', function(req, res){
   if(errors) {
     res.render('index', {
       errors: errors
-    })
+  })
   } else {
     var newUser = {
       name: req.body.name,
       email: req.body.email
     }
+    console.log('Email Sent');
+
     console.log(newUser);
 
     const output = `
@@ -71,7 +73,7 @@ server.post('/url', function(req, res){
     let mailOptions = {
         from: '"Fake Person 👻" <fake23480@gmail.com>', // sender address
         to: req.body.email, // list of receivers
-        subject: 'Hello Person', // Subject line
+        subject: 'Hello Human', // Subject line
         text: 'Hello world?', // plain text body
         html: output // html body
     };
@@ -84,12 +86,11 @@ server.post('/url', function(req, res){
         console.log('Message sent: %s', info.messageId);
         console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
 
-        res.render('index', {msg:"Email has been sent"});
+        res.render('index');
 
     });
   }
 });
-
 
 server.listen(3000, function(){
   console.log('Server Started on Port 3000....')
